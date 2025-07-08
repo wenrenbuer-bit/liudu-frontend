@@ -11,8 +11,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
-      "dest": "/index.html"
+      "source": "/index.html"
     }
   ]
 } 
