@@ -8,7 +8,7 @@ const { Title } = Typography;
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  
   const onFinish = async (values: any) => {
     setLoading(true);
     try {
@@ -17,6 +17,7 @@ const Login: React.FC = () => {
       message.success('登录成功');
       navigate('/home');
     } catch (err: any) {
+      message.error(err.response?.data?.message || '登录失败');
       message.error(err.response?.data?.message || '登录失败');
     } finally {
       setLoading(false);

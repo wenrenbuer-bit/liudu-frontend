@@ -42,12 +42,8 @@ const Register: React.FC = () => {
         <Form.Item name="phone" label="手机号" rules={[{ required: true, message: '请输入手机号' }]}> <Input /> </Form.Item>
         <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }]}> <Input.Password /> </Form.Item>
         <Form.Item name="nickname" label="昵称" rules={[{ required: true, message: '请输入昵称' }]}> <Input /> </Form.Item>
-        <Form.Item>
-          <Button type="primary" block loading={loading}  onClick={onFinish}>注册</Button>
-        </Form.Item>
-        <Form.Item>
-          <Button type="link" block onClick={() => navigate('/auth/login')}>已有账号？去登录</Button>
-        </Form.Item>
+          <Button type="primary" loading={loading}  onClick={onFinish}>注册</Button>
+          <Button type="link" onClick={() => navigate('/auth/login')}>已有账号？去登录</Button>
       </Form>
     </div>
   );
