@@ -131,9 +131,6 @@ const GraphPage: React.FC = () => {
     setCurrentNode(null);
     setModalVisible(true);
     form.resetFields();
-    setTimeout(() => {
-      form.setFieldsValue({ person: '', relationType: '', level: '', parent: meNode?._id });
-    }, 0);
     setParentOptions(relations.filter(r => !(r.person === '我' && r.relationType === '本人')));
   };
 
@@ -190,14 +187,21 @@ const GraphPage: React.FC = () => {
         title={editMode === 'add' ? '添加关系' : '编辑关系'}
         open={modalVisible}
         onOk={handleOk}
-        onCancel={() => setModalVisible(false)}
+        onCancel={() => {
+          setModalVisible(false);
+          form.resetFields();
+        }}
         footer={[
           editMode === 'edit' && <Button key="delete" danger onClick={handleDelete}>删除</Button>,
-          <Button key="cancel" onClick={() => setModalVisible(false)}>取消</Button>,
+          <Button key="cancel" onClick={() => { setModalVisible(false); form.resetFields(); }}>取消</Button>,
           <Button key="ok" type="primary" onClick={handleOk}>确定</Button>
         ]}
       >
-        <Form form={form} layout="vertical">
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={{ person: '', relationType: '', level: '', parent: meNode?._id }}
+        >
           <Form.Item name="person" label="姓名" rules={[{ required: true, message: '请输入姓名' }]}> <Input autoComplete="off" /> </Form.Item>
           <Form.Item name="relationType" label="关系类型" rules={[{ required: true, message: '请选择类型' }]}> <Select>{relationTypes.map(t => <Option key={t} value={t}>{t}</Option>)}</Select> </Form.Item>
           <Form.Item name="level" label="层级"> <Input placeholder="可选" autoComplete="off" /> </Form.Item>
