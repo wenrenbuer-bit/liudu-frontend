@@ -130,8 +130,10 @@ const GraphPage: React.FC = () => {
     setEditMode('add');
     setCurrentNode(null);
     setModalVisible(true);
-    // 默认parent为“我”
-    form.setFieldsValue({ person: '', relationType: '', level: '', parent: meNode?._id });
+    form.resetFields();
+    setTimeout(() => {
+      form.setFieldsValue({ person: '', relationType: '', level: '', parent: meNode?._id });
+    }, 0);
     setParentOptions(relations.filter(r => !(r.person === '我' && r.relationType === '本人')));
   };
 
