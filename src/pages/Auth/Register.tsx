@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { authAPI } from '../../api';
 
 const { Title } = Typography;
 
 const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
   const onFinish = async (values: any) => {
     setLoading(true);
     try {
-      // 先请求验证码（模拟）
-      // await axios.post(`${import.meta.env.VITE_API_BASE}/api/auth/send-code`, { phone: values.phone });
-      // 再注册
-
-      console.log(values,'==values');
-      
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE}/api/auth/register`, {
+      const res = await authAPI.register({
         ...values,
         code: '123456', // 测试环境写死
       });
@@ -34,10 +29,16 @@ const Register: React.FC = () => {
   return (
     <div style={{ maxWidth: 360, margin: '80px auto', padding: 24, background: '#fff', borderRadius: 8 }}>
       <Title level={3} style={{ textAlign: 'center' }}>注册六度</Title>
-      <Form layout="vertical" onFinish={onFinish}>
-        <Form.Item name="phone" label="手机号" rules={[{ required: true, message: '请输入手机号' }]}> <Input /> </Form.Item>
-        <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }]}> <Input.Password /> </Form.Item>
-        <Form.Item name="nickname" label="昵称" rules={[{ required: true, message: '请输入昵称' }]}> <Input /> </Form.Item>
+      <Form form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
+        <Form.Item name="phone" label="手机号" rules={[{ required: true, message: '请输入手机号' }]}>
+          <Input autoComplete="tel" />
+        </Form.Item>
+        <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }]}>
+          <Input.Password autoComplete="new-password" />
+        </Form.Item>
+        <Form.Item name="nickname" label="昵称" rules={[{ required: true, message: '请输入昵称' }]}>
+          <Input autoComplete="nickname" />
+        </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={loading}>注册</Button>
         </Form.Item>
